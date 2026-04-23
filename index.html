@@ -832,7 +832,7 @@ table{border-collapse:collapse;width:100%}
     const p2= document.getElementById('reg-pass2').value;
     clearErr('reg-err');
     if(!u){ authErr('reg-err','Please enter a username.'); return; }
-    if(p.length<4){ authErr('reg-err','Password must be at least 4 characters.'); return; }
+    if(p.length<8){ authErr('reg-err','Password must be at least 8 characters.'); return; }
     if(p!==p2){ authErr('reg-err','Passwords do not match.'); return; }
     const email = u + '@blackspace.app';
     showLoading('Creating account…');
