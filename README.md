@@ -15,4 +15,4 @@
 
 ## 授權
 
-© 2026 BlackSpace
+© 2026 BlackLab
