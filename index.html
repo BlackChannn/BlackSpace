@@ -127,7 +127,7 @@
   font-size:9.5px!important;
 }
 /* Trader: bottom nav simpler */
-[data-theme="trader"] .bottom-nav { background:var(--surface)!important; border-top:1px solid var(--divider)!important; }
+[data-theme="trader"] .bottom-nav { background:rgba(10,10,10,.7)!important; border:1px solid rgba(255,255,255,.07)!important; box-shadow:0 8px 32px rgba(0,0,0,.6),0 0 0 0.5px rgba(255,255,255,.04) inset!important; }
 [data-theme="trader"] .bottom-nav-btn { font-family:var(--mono); letter-spacing:.05em; text-transform:uppercase; font-size:9.5px!important; }
 [data-theme="trader"] .bottom-nav-btn.active { color:var(--primary); }
 /* Trader: sidebar same treatment */
@@ -548,7 +548,7 @@ table{border-collapse:collapse;width:100%}
   .kpi-card { padding: 14px 14px 12px; }
   .goals-grid { grid-template-columns: 1fr; }
   .page-hdr { margin-bottom: 12px; }
-  .content { padding-bottom: 66px; }
+  .content { padding-bottom: 100px; }
   .cats-grid { grid-template-columns: 1fr; }
   .tx-table th:first-child, .tx-table td:first-child { display: none; }
   #inv-table th:nth-child(2), #inv-table td:nth-child(2),
@@ -570,9 +570,11 @@ table{border-collapse:collapse;width:100%}
   .overlay { align-items: flex-end; padding: 0; }
   .modal { border-radius: var(--rXl) var(--rXl) 0 0; max-width: 100% !important; width: 100%; padding: 24px 20px 36px; max-height: 90dvh; overflow-y: auto; }
   .auth-box { padding: 32px 24px; }
-  .bottom-nav { display: flex !important; position: fixed; bottom: 0; left: 0; right: 0; height: 54px; background: rgba(255,255,255,.85); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-top: 1px solid var(--divider); z-index: 50; align-items: stretch; }
-  [data-theme="dark"] .bottom-nav { background: rgba(28,28,30,.9); }
-  .bottom-nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 10px; font-weight: 500; color: var(--muted); border: none; background: none; cursor: pointer; transition: color var(--trans); padding: 0; }
+  .bottom-nav { display: flex !important; position: fixed; bottom: 16px; left: 16px; right: 16px; height: 60px; background: rgba(255,255,255,.65); backdrop-filter: saturate(200%) blur(28px); -webkit-backdrop-filter: saturate(200%) blur(28px); border: 1px solid rgba(255,255,255,.55); border-radius: 22px; z-index: 50; align-items: stretch; box-shadow: 0 8px 32px rgba(0,0,0,.10), 0 2px 8px rgba(0,0,0,.06), 0 0 0 0.5px rgba(255,255,255,.4) inset; padding: 0 4px; }
+  [data-theme="dark"] .bottom-nav { background: rgba(20,20,22,.6); border: 1px solid rgba(255,255,255,.08); box-shadow: 0 8px 32px rgba(0,0,0,.45), 0 2px 8px rgba(0,0,0,.3), 0 0 0 0.5px rgba(255,255,255,.06) inset; }
+  [data-theme="trader"] .bottom-nav { background: rgba(10,10,10,.7) !important; border: 1px solid rgba(255,255,255,.07) !important; box-shadow: 0 8px 32px rgba(0,0,0,.6), 0 0 0 0.5px rgba(255,255,255,.04) inset !important; }
+  .bottom-nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10px; font-weight: 500; color: var(--muted); border: none; background: none; cursor: pointer; transition: color var(--trans), transform .15s; padding: 0; border-radius: 18px; }
+  .bottom-nav-btn:active { transform: scale(.9); }
   .bottom-nav-btn.active { color: var(--primary); }
   .bottom-nav-btn svg { width: 20px; height: 20px; }
 }
@@ -5878,10 +5880,10 @@ import {
     const se=document.getElementById("bsi-portfolioSummary");
     if(se){
       const best=entries.reduce((b,[s,h])=>{const r=h.avgCost?((BSI.quotes[s]?.c||h.avgCost)-h.avgCost)/h.avgCost*100:-999;return r>b.r?{sym:s,r}:b;},{sym:"-",r:-999});
-      const worst=entries.reduce((w,[s,h])=>{const r=h.avgCost&&BSI.quotes[s]?.c?((BSI.quotes[s].c)-h.avgCost)/h.avgCost*100:999;return r<w.r?{sym:s,r}:w;},{sym:"-",r:999});
+      const worst=entries.reduce((w,[s,h])=>{const r=h.avgCost?((BSI.quotes[s]?.c||h.avgCost)-h.avgCost)/h.avgCost*100:999;return r<w.r?{sym:s,r}:w;},{sym:"-",r:999});
       const iZhP=typeof curLang!=='undefined'&&curLang==='zh';
       const mkRow=(l,v,c)=>`<div class="bsi-sum-row"><span style="color:var(--muted);font-size:12px;">${l}</span><span style="font-size:13px;font-weight:700;${c?"color:"+c:""}">${v}</span></div>`;
-      se.innerHTML=mkRow(iZhP?"總回報":"Total Return",bsiSignedMoney(bsiTotalRet())+" ("+bsiPct(bsiTotalRetPct())+")",bsiColorFor(bsiTotalRet()))+(entries.length?mkRow(iZhP?"最佳":"Best",best.r>-999?best.sym+" "+bsiPct(best.r):"-","var(--success)")+mkRow(iZhP?"最差":"Worst",worst.r<0?worst.sym+" "+bsiPct(worst.r):"-","var(--error)"):"");
+      se.innerHTML=mkRow(iZhP?"總回報":"Total Return",bsiSignedMoney(bsiTotalRet())+" ("+bsiPct(bsiTotalRetPct())+")",bsiColorFor(bsiTotalRet()))+(entries.length?mkRow(iZhP?"最佳":"Best",best.r>-999?best.sym+" "+bsiPct(best.r):"-","var(--success)")+mkRow(iZhP?"最差":"Worst",worst.r<999?worst.sym+" "+bsiPct(worst.r):"-","var(--error)"):"");
     }
     // Holdings table
     const pl=document.getElementById("bsi-holdingsList");if(!pl)return;pl.innerHTML="";
